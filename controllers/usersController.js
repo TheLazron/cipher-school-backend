@@ -1,4 +1,8 @@
-import { loginUser, registerUser } from "../model/user.js";
+import {
+  loginUser,
+  registerUser,
+  updateProfileDetails,
+} from "../model/user.js";
 
 const createuser = (req, res) => {
   const user = req.body;
@@ -18,4 +22,14 @@ const login = (req, res) => {
   });
 };
 
-export { createuser, login };
+const updateUser = (req, res) => {
+  const { email, ...userDetails } = req.body;
+  //   const email = res.email;
+
+  updateProfileDetails(email, userDetails).then((data) => {
+    console.log(userDetails);
+    res.json(data);
+  });
+};
+
+export { createuser, login, updateUser };

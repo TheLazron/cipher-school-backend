@@ -5,7 +5,10 @@ import { comparePasswords, hashPassword } from "../utils/bcrypt.js";
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
-  password: String,
+  password: {
+    type: String,
+    select: false,
+  },
   profileUrl: String,
 });
 
@@ -56,4 +59,22 @@ const loginUser = async ({ email, password }) => {
   }
 };
 
-export { registerUser, loginUser };
+const updateProfileDetails = async (email, updatedFields) => {
+  try {
+    const updatedUser = await userModel.findOneAndUpdate(
+      { email },
+      { ...updatedFields },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return { error: "Please provide a valid email address" };
+    }
+    console.log(updatedUser);
+    return { message: "Updates were made successfully" };
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export { registerUser, loginUser, updateProfileDetails };
