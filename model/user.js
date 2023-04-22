@@ -173,48 +173,6 @@ const fetchPaginatedFollowers = async (
   }
 };
 
-// const fetchPaginatedFollowers = async (
-//   email,
-//   startIndex,
-//   endIndex,
-//   page,
-//   limit
-// ) => {
-//   const response = {};
-
-//   userModel.countDocuments().then((count) => {
-//     if (endIndex < count) {
-//       response.nextPage = {
-//         page: page + 1,
-//         limit: limit,
-//       };
-//     }
-//   });
-//   if (startIndex > 0) {
-//     response.previous = {
-//       page: page - 1,
-//       limit: limit,
-//     };
-//   }
-
-//   try {
-//     const followers = await userModel.findOne({ email: email }).populate({
-//       path: "followers",
-//       options: {
-//         limit: limit,
-//         skip: startIndex,
-//       },
-//     });
-
-//     response.followers = followers.followers;
-
-//     return response;
-//   } catch (err) {
-//     console.log("err", err);
-//     return { err: "An error occurred while processing your request" };
-//   }
-// };
-
 export {
   registerUser,
   loginUser,
