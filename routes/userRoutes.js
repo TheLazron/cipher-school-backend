@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  changePassword,
   createuser,
   login,
   updateUser,
@@ -12,5 +13,7 @@ userRouter.post("/register", createuser);
 userRouter.post("/login", login);
 
 userRouter.post("/updateUser", updateUser);
+
+userRouter.post("/updatePass", changePassword);
 
 export default userRouter;

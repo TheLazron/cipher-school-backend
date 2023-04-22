@@ -34,14 +34,15 @@ const registerUser = async ({ name, email, password, profileUrl }) => {
     await newUser.save();
     return { message: "User saved successfully" };
   } catch (err) {
-    throw new Error(err.message);
+    console.log("err", err);
+    return { err: "An error occurred while processing your request" };
   }
 };
 
 const loginUser = async ({ email, password }) => {
   try {
     // Check if user with given email exists
-    const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email }).select("+password");
     if (!user) {
       return { error: "No User Found" };
     }
@@ -55,7 +56,8 @@ const loginUser = async ({ email, password }) => {
 
     return { message: "logged In Successfully" };
   } catch (error) {
-    throw new Error(error.message);
+    console.log("err", error);
+    return { err: "An error occurred while processing your request" };
   }
 };
 
@@ -74,7 +76,29 @@ const updateProfileDetails = async (email, updatedFields) => {
     return { message: "Updates were made successfully" };
   } catch (err) {
     console.log("err", err);
+    return { err: "An error occurred while processing your request" };
   }
 };
 
-export { registerUser, loginUser, updateProfileDetails };
+const updatePassword = async (email, newPassword) => {
+  try {
+    console.log("newPass", newPassword);
+    const hashedPass = await hashPassword(newPassword);
+
+    const user = await userModel.findOneAndUpdate(
+      { email },
+      { password: hashedPass }
+    );
+
+    if (!user) {
+      return { error: "Please provide a valid email address" };
+    }
+
+    return { message: "Password changed successfully" };
+  } catch (err) {
+    console.log("err", err);
+    return { err: "An error occurred while processing your request" };
+  }
+};
+
+export { registerUser, loginUser, updateProfileDetails, updatePassword };

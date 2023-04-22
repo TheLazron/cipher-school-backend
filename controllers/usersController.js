@@ -1,6 +1,7 @@
 import {
   loginUser,
   registerUser,
+  updatePassword,
   updateProfileDetails,
 } from "../model/user.js";
 
@@ -32,4 +33,11 @@ const updateUser = (req, res) => {
   });
 };
 
-export { createuser, login, updateUser };
+const changePassword = (req, res) => {
+  const { email, newPassword } = req.body;
+  updatePassword(email, newPassword).then((data) => {
+    res.json(data);
+  });
+};
+
+export { createuser, login, updateUser, changePassword };
