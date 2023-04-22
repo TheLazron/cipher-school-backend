@@ -1,4 +1,4 @@
-import { registerUser } from "../model/user.js";
+import { loginUser, registerUser } from "../model/user.js";
 
 const createuser = (req, res) => {
   const user = req.body;
@@ -9,4 +9,13 @@ const createuser = (req, res) => {
   console.log(user);
 };
 
-export { createuser };
+const login = (req, res) => {
+  const userCreds = req.body;
+
+  loginUser(userCreds).then((data) => {
+    console.log(userCreds);
+    res.json(data);
+  });
+};
+
+export { createuser, login };

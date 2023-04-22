@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 app.use(userRouter);
 
 connectMongoose(
-  "mongodb+srv://admin:admin@cluster0.szu6rmx.mongodb.net/test"
+  "mongodb+srv://admin:admin@cluster0.szu6rmx.mongodb.net/cipherschools"
 ).then(() => {
   app.listen(8080, () => {
     console.log("server started on port 3000");

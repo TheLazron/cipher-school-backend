@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import { comparePasswords, hashPassword } from "../utils/bcrypt.js";
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -16,21 +18,24 @@ const registerUser = async ({ name, email, password, profileUrl }) => {
       return { error: "User already exists" };
     }
 
+    const hashedPass = await hashPassword(password);
     const newUser = new userModel({
       name,
       email,
-      password,
+      password: hashedPass,
       profileUrl,
+      interests: [],
+      followers: [],
     });
 
     await newUser.save();
     return { message: "User saved successfully" };
   } catch (err) {
-    throw new Error(error.message);
+    throw new Error(err.message);
   }
 };
 
-const loginUser = async (email, password) => {
+const loginUser = async ({ email, password }) => {
   try {
     // Check if user with given email exists
     const user = await userModel.findOne({ email });
@@ -39,12 +44,13 @@ const loginUser = async (email, password) => {
     }
 
     // Check if password is correct
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await comparePasswords(password, user.password);
+
     if (!isMatch) {
       return { error: "Invalid password" };
     }
 
-    return user;
+    return { message: "logged In Successfully" };
   } catch (error) {
     throw new Error(error.message);
   }
