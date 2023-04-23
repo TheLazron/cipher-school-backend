@@ -28,6 +28,10 @@ const updateInterestsSchema = Joi.object({
   newInterests: Joi.array().items(Joi.string()),
 });
 
+const getInterestsSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
 const getFollowersRequestSchema = Joi.object({
   email: Joi.string().email().required(),
 });
@@ -43,6 +47,7 @@ export {
   updateUserSchema,
   updatePassSchema,
   updateInterestsSchema,
+  getInterestsSchema,
   getFollowersRequestSchema,
   getFollowersQuerySchema,
 };

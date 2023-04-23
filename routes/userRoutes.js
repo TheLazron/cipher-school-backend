@@ -3,6 +3,7 @@ import {
   changePassword,
   createuser,
   getFollowers,
+  getInterests,
   login,
   updateIntersts,
   updateUser,
@@ -19,6 +20,8 @@ userRouter.post("/updateUser", updateUser);
 userRouter.post("/updatePass", changePassword);
 
 userRouter.post("/updateInterests", updateIntersts);
+
+userRouter.get("/getInterests", getInterests);
 
 userRouter.get("/getFollowers", getFollowers);
 

@@ -1,6 +1,7 @@
 import { response } from "express";
 import {
   fetchPaginatedFollowers,
+  getUserInterests,
   loginUser,
   registerUser,
   updatePassword,
@@ -10,6 +11,7 @@ import {
 import {
   getFollowersQuerySchema,
   getFollowersRequestSchema,
+  getInterestsSchema,
   loginUserSchema,
   registerUserSchema,
   updateInterestsSchema,
@@ -77,8 +79,22 @@ const updateIntersts = (req, res) => {
   const body = req.body;
   const { error } = updateInterestsSchema.validate(body);
   if (!error) {
-    const { email, newInterests } = req.body;
+    const { email, newInterests } = body;
     updateUserInterests(email, [...newInterests]).then((data) => {
+      res.json({ ...data });
+    });
+  } else {
+    res.json({ error: error.details });
+  }
+};
+
+const getInterests = (req, res) => {
+  const body = req.query;
+  console.log(body);
+  const { error } = getInterestsSchema.validate(body);
+  if (!error) {
+    const { email } = body;
+    getUserInterests(email).then((data) => {
       res.json({ ...data });
     });
   } else {
@@ -121,5 +137,6 @@ export {
   updateUser,
   changePassword,
   updateIntersts,
+  getInterests,
   getFollowers,
 };

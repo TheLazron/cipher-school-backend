@@ -128,6 +128,22 @@ const updateUserInterests = async (email, newInterests) => {
     return { err: "An error occurred while processing your request" };
   }
 };
+
+const getUserInterests = async (email) => {
+  try {
+    const user = await userModel.findOne({ email }).select("interests");
+    if (!user) {
+      return { error: "No user find" };
+    }
+
+    return { interests: user.interests };
+    return user.interests;
+  } catch (err) {
+    console.log("err", err);
+    return { err: "An error occurred while processing your request" };
+  }
+};
+
 const fetchPaginatedFollowers = async (
   email,
   startIndex,
@@ -179,5 +195,6 @@ export {
   updateProfileDetails,
   updatePassword,
   updateUserInterests,
+  getUserInterests,
   fetchPaginatedFollowers,
 };
