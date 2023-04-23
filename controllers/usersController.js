@@ -78,7 +78,7 @@ const updateIntersts = (req, res) => {
   const { error } = updateInterestsSchema.validate(body);
   if (!error) {
     const { email, newInterests } = req.body;
-    updateUserInterests(email, [newInterests]).then((data) => {
+    updateUserInterests(email, [...newInterests]).then((data) => {
       res.json({ ...data });
     });
   } else {

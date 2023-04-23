@@ -1,8 +1,10 @@
 import express from "express";
+import cors from "cors";
 import { connectMongoose } from "./utils/mongoose-instance.js";
 const app = express();
 import userRouter from "./routes/userRoutes.js";
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
