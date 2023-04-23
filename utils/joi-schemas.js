@@ -16,7 +16,8 @@ const updateUserSchema = Joi.object({
   email: Joi.string().email().required(),
   profileUrl: Joi.string().uri(),
   name: Joi.string().min(6),
-}).or("profileUrl", "name");
+  bio: Joi.string(),
+}).or("profileUrl", "name", "bio");
 
 const updatePassSchema = Joi.object({
   email: Joi.string().email().required(),

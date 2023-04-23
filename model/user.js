@@ -5,6 +5,7 @@ import { comparePasswords, hashPassword } from "../utils/bcrypt.js";
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
+  bio: String,
   password: {
     type: String,
     select: false,
@@ -34,6 +35,7 @@ const registerUser = async ({ name, email, password, profileUrl }) => {
     const newUser = new userModel({
       name,
       email,
+      bio,
       password: hashedPass,
       profileUrl,
       interests: [],
@@ -62,8 +64,10 @@ const loginUser = async ({ email, password }) => {
     if (!isMatch) {
       return { error: "Invalid password" };
     }
+    const newUser = { ...user };
+    delete newUser._doc.password;
 
-    return { message: "logged In Successfully" };
+    return { message: "logged In Successfully", user: newUser };
   } catch (error) {
     console.log("err", error);
     return { err: "An error occurred while processing your request" };

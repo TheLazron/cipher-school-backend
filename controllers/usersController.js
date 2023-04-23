@@ -38,7 +38,6 @@ const login = (req, res) => {
   const { error } = loginUserSchema.validate(userCreds);
   if (!error) {
     loginUser(userCreds).then((data) => {
-      console.log(userCreds);
       res.json(data);
     });
   } else {
